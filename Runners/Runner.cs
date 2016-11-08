@@ -12,9 +12,10 @@ namespace OpenSupportEngine.TaskRunner.Runners
             get { return taskList.Count; }
         }
         public bool Running { get; protected set; }
+        public bool LastResult { get; protected set; }
         public ILoggingProvider Logger { get; set; }
 
-        public event EventHandler<EventArgs> RunnerFinished;
+        public event EventHandler<RunnerFinishedEventArgs> RunnerFinished;
 
         private uint taskIDCount;
         protected List<ITask> taskList;
@@ -26,7 +27,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
             taskList.Add(clonedTask);
             return clonedTask.ID;
         }
-        
+
         public void RemoveTask(uint id)
         {
             var task = FindTask(id);
@@ -57,16 +58,32 @@ namespace OpenSupportEngine.TaskRunner.Runners
             return taskList.Find(t => t.ID == id);
         }
 
-        protected void OnRunnerFinished()
+        protected void OnRunnerFinished(ITask failedTask)
         {
-            RunnerFinished?.Invoke(this, new EventArgs());
+            var eventArgs = new RunnerFinishedEventArgs(
+                LastResult,
+                failedTask
+                );
+            RunnerFinished?.Invoke(this, eventArgs);
         }
 
-        protected virtual void internalRun(object state)
+        protected virtual ITask internalRun(object state)
         {
+            var taskFailed = false;
+            ITask failedTask = null;
             Logger?.StartLog();
-            taskList.ForEach(t => t.doStuff(state, Logger));
+            foreach (var task in taskList)
+            {
+                if (task.doStuff(state, Logger))
+                {
+                    failedTask = (ITask)task.Clone();
+                    taskFailed = true;
+                    break;
+                }
+            }
+            LastResult = taskFailed;
             Logger?.FinishLog();
+            return failedTask;
         }
 
         public abstract void run(object state);

@@ -24,16 +24,16 @@ namespace OpenSupportEngine.TaskRunner.Runners
             Running = true;
             ResetEvent.Reset();
             task.Start();
-            
+
             return task;
         }
 
         private void runAllTasks(object state)
         {
-            internalRun(state);
+            var failedTask = internalRun(state);
             Running = false;
             ResetEvent.Set();
-            OnRunnerFinished();
+            OnRunnerFinished(failedTask);
         }
     }
 }

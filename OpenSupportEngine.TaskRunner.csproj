@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Runners\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runners\RunnerFinishedEventArgs.cs" />
     <Compile Include="Runners\StandardRunner.cs" />
     <Compile Include="Runners\AsynchronousRunner.cs" />
     <Compile Include="Tasks\ITask.cs" />

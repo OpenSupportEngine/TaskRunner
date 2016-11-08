@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenSupportEngine.TaskRunner.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,11 @@ namespace OpenSupportEngine.TaskRunner.Runners
     {
         public override void run(object state)
         {
+            ITask failedTask = null;
             Running = true;
-            internalRun(state);
+            failedTask = internalRun(state);
             Running = false;
-            OnRunnerFinished();
+            OnRunnerFinished(failedTask);
         }
     }
 }
