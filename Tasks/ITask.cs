@@ -9,8 +9,9 @@ namespace OpenSupportEngine.TaskRunner.Tasks
 {
     public interface ITask : ICloneable
     {
-        uint ID { set; get; }
+        uint ID { get; set; }
+        string Name { get; }
         
-        void doStuff(object state, ILoggingProvider logger);
+        bool doStuff(object state, ILoggingProvider logger);
     }
 }

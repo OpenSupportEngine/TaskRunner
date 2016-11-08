@@ -12,8 +12,6 @@ namespace OpenSupportEngine.TaskRunner.Runners
         public ManualResetEventSlim ResetEvent { get; } =
             new ManualResetEventSlim(true);
 
-        private Thread workerThread;
-
         public override void run(object state)
         {
             runAsynchronously(state).Wait();

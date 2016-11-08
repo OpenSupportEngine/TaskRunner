@@ -11,7 +11,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
         {
             get { return taskList.Count; }
         }
-        public bool Running { protected set; get; }
+        public bool Running { get; protected set; }
         public ILoggingProvider Logger { get; set; }
 
         public event EventHandler<EventArgs> RunnerFinished;
