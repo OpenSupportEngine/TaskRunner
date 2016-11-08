@@ -44,13 +44,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
 
         public ITask GetTask(uint id)
         {
-            var task = FindTask(id);
-            if (task != null)
-            {
-                task = (ITask)task.Clone();
-                task.ID = id;
-            }
-            return task;
+            return FindTask(id);
         }
 
         private ITask FindTask(uint id)

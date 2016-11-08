@@ -46,6 +46,7 @@
     <Compile Include="Runners\StandardRunner.cs" />
     <Compile Include="Runners\AsynchronousRunner.cs" />
     <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\RunFileTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\OpenSupportEngine.Logging.csproj">

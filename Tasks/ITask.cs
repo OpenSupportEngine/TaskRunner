@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpenSupportEngine.TaskRunner.Tasks
 {
-    public interface ITask : ICloneable
+    public interface ITask
     {
         uint ID { get; set; }
         string Name { get; }
