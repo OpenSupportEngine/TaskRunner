@@ -16,25 +16,23 @@ namespace OpenSupportEngine.TaskRunner.Runners
         public ILoggingProvider Logger { get; set; }
 
         public event EventHandler<RunnerFinishedEventArgs> RunnerFinished;
+        public event EventHandler<TaskFinishedEventArgs> TaskFinished;
 
         private uint taskIDCount;
         protected List<ITask> taskList;
 
         public uint AddTask(ITask task)
         {
-            var clonedTask = (ITask)task.Clone();
-            clonedTask.ID = taskIDCount++;
-            taskList.Add(clonedTask);
-            return clonedTask.ID;
+            task.ID = taskIDCount++;
+            taskList.Add(task);
+            return task.ID;
         }
 
         public void RemoveTask(uint id)
         {
             var task = FindTask(id);
             if (task != null)
-            {
                 taskList.Remove(task);
-            }
         }
 
         public bool TaskExists(uint id)
@@ -61,6 +59,14 @@ namespace OpenSupportEngine.TaskRunner.Runners
             RunnerFinished?.Invoke(this, eventArgs);
         }
 
+        protected void OnTaskFinished(ITask task)
+        {
+            var eventArgs = new TaskFinishedEventArgs(
+                task
+                );
+            TaskFinished?.Invoke(this, eventArgs);
+        }
+
         protected virtual ITask internalRun(object state)
         {
             var taskFailed = false;
@@ -70,10 +76,11 @@ namespace OpenSupportEngine.TaskRunner.Runners
             {
                 if (task.doStuff(state, Logger))
                 {
-                    failedTask = (ITask)task.Clone();
+                    failedTask = task;
                     taskFailed = true;
                     break;
                 }
+                OnTaskFinished(task);
             }
             LastResult = taskFailed;
             Logger?.FinishLog();
