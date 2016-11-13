@@ -19,7 +19,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
         public event EventHandler<TaskFinishedEventArgs> TaskFinished;
 
         private uint taskIDCount;
-        protected List<ITask> taskList;
+        protected List<ITask> taskList = new List<ITask>();
 
         public uint AddTask(ITask task)
         {
@@ -74,7 +74,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
             Logger?.StartLog();
             foreach (var task in taskList)
             {
-                if (task.doStuff(state, Logger))
+                if (!task.doStuff(state, Logger))
                 {
                     failedTask = task;
                     taskFailed = true;
@@ -82,11 +82,11 @@ namespace OpenSupportEngine.TaskRunner.Runners
                 }
                 OnTaskFinished(task);
             }
-            LastResult = taskFailed;
+            LastResult = !taskFailed;
             Logger?.FinishLog();
             return failedTask;
         }
 
-        public abstract void run(object state);
+        public abstract void Run(object state);
     }
 }

@@ -9,7 +9,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
 {
     public class StandardRunner : Runner
     {
-        public override void run(object state)
+        public override void Run(object state)
         {
             ITask failedTask = null;
             Running = true;

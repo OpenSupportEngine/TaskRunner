@@ -46,10 +46,16 @@
     <Compile Include="Runners\StandardRunner.cs" />
     <Compile Include="Runners\AsynchronousRunner.cs" />
     <Compile Include="Runners\TaskFinishedEventArgs.cs" />
+    <Compile Include="Tasks\ExtractResourceTask.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\RunFileTask.cs" />
+    <Compile Include="Tasks\SleepTask.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Helpers\OpenSupportEngine.Helpers.csproj">
+      <Project>{18625596-1d13-4778-92f5-713a65389910}</Project>
+      <Name>OpenSupportEngine.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logging\OpenSupportEngine.Logging.csproj">
       <Project>{af8267e3-08ff-4dba-aeb1-20eee4b96fe1}</Project>
       <Name>OpenSupportEngine.Logging</Name>

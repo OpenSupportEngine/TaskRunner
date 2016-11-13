@@ -12,14 +12,14 @@ namespace OpenSupportEngine.TaskRunner.Runners
         public ManualResetEventSlim ResetEvent { get; } =
             new ManualResetEventSlim(true);
 
-        public override void run(object state)
+        public override void Run(object state)
         {
-            runAsynchronously(state).Wait();
+            RunAsynchronously(state).Wait();
         }
 
-        public Task runAsynchronously(object state)
+        public Task RunAsynchronously(object state)
         {
-            var task = new Task(() => runAllTasks(state));
+            var task = new Task(() => RunAllTasks(state));
 
             Running = true;
             ResetEvent.Reset();
@@ -28,7 +28,7 @@ namespace OpenSupportEngine.TaskRunner.Runners
             return task;
         }
 
-        private void runAllTasks(object state)
+        private void RunAllTasks(object state)
         {
             var failedTask = internalRun(state);
             Running = false;
